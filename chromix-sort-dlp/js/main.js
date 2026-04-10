@@ -4,11 +4,19 @@
 
 import { MVP_CONFIG } from "./config.js";
 import { createInitialState, resetToDefault, applyMove } from "./state.js";
-import { render } from "./view.js";
+import { render, violationMessage } from "./view.js";
 import { attachPointerControls } from "./input.js";
 
 /** @type {object} */
 let gameState = createInitialState(MVP_CONFIG);
+
+/** Shown until cleared by a new action (valid move, new selection, reset). */
+let transientErrorHint = null;
+
+/** Blocks rapid double-clicks while the UI settles after a successful move. */
+let inputLockedUntil = 0;
+
+const INPUT_LOCK_MS = 200;
 
 function getElements() {
   const boardEl = document.getElementById("board");
@@ -31,10 +39,22 @@ function getElements() {
   };
 }
 
-function commit(next) {
+/**
+ * @param {object} next
+ * @param {{ clearError?: boolean, lockInputMs?: number }} [opts]
+ */
+function commit(next, opts = {}) {
+  if (opts.clearError) {
+    transientErrorHint = null;
+  }
   gameState = next;
   const els = getElements();
-  if (els) render(gameState, els);
+  if (els) {
+    render(gameState, els, { errorHint: transientErrorHint });
+  }
+  if (opts.lockInputMs) {
+    inputLockedUntil = performance.now() + opts.lockInputMs;
+  }
 }
 
 function bootstrap() {
@@ -42,33 +62,49 @@ function bootstrap() {
   if (!els) return;
 
   const root = document.getElementById("game-root");
-  if (root) root.dataset.chromixPhase = "3";
+  if (root) root.dataset.chromixPhase = "5";
 
-  render(gameState, els);
+  transientErrorHint = null;
+  render(gameState, els, { errorHint: null });
 
   attachPointerControls(els.tubesRoot, {
+    isInteractionLocked: () => performance.now() < inputLockedUntil,
     onTubeClick(index) {
       const s = gameState;
       if (s.phase !== "playing") return;
 
       if (s.selection.type === "none") {
+        transientErrorHint = null;
         commit({ ...s, selection: { type: "source", tubeIndex: index } });
         return;
       }
 
       const from = s.selection.tubeIndex;
       if (from === index) {
+        transientErrorHint = null;
         commit({ ...s, selection: { type: "none" } });
         return;
       }
 
       const result = applyMove(s, from, index);
-      commit(result.state);
+      if (!result.ok) {
+        transientErrorHint = violationMessage(result.reason);
+        commit({
+          ...result.state,
+          selection: { type: "none" },
+        });
+        return;
+      }
+
+      transientErrorHint = null;
+      commit(result.state, { lockInputMs: INPUT_LOCK_MS });
     },
   });
 
   els.resetBtn.addEventListener("click", () => {
-    commit(resetToDefault());
+    transientErrorHint = null;
+    inputLockedUntil = 0;
+    commit(resetToDefault(), { clearError: true });
   });
 }
 

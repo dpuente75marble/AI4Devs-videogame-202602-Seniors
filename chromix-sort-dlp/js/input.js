@@ -4,10 +4,15 @@
 
 /**
  * @param {HTMLElement} tubesRoot
- * @param {{ onTubeClick: (index: number) => void }} handlers
+ * @param {{
+ *   onTubeClick: (index: number) => void,
+ *   isInteractionLocked?: () => boolean,
+ * }} handlers
  */
-export function attachPointerControls(tubesRoot, { onTubeClick }) {
+export function attachPointerControls(tubesRoot, { onTubeClick, isInteractionLocked }) {
   tubesRoot.addEventListener("click", (event) => {
+    if (isInteractionLocked?.()) return;
+
     const target = /** @type {HTMLElement} */ (event.target);
     const tubeBtn = target.closest("[data-tube-index]");
     if (!tubeBtn || !(tubeBtn instanceof HTMLButtonElement)) return;
