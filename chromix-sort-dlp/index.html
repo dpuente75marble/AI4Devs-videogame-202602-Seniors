@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chromix Sort</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app__header">
+        <h1 class="app__title">Chromix Sort</h1>
+        <p class="app__tagline">Sort colors into tubes — MVP shell</p>
+      </header>
+
+      <main class="app__main" id="game-root" aria-labelledby="game-heading">
+        <h2 id="game-heading" class="visually-hidden">Game</h2>
+
+        <section
+          class="board-section"
+          aria-label="Puzzle board"
+        >
+          <div id="board" class="board board--placeholder">
+            <div class="board__tubes" id="tubes" aria-hidden="true">
+              <div class="tube tube--placeholder"></div>
+              <div class="tube tube--placeholder"></div>
+              <div class="tube tube--placeholder"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="controls-section" aria-label="Game controls">
+          <button
+            type="button"
+            id="btn-reset"
+            class="btn btn--reset"
+            disabled
+            aria-describedby="status"
+          >
+            Reset
+          </button>
+        </section>
+
+        <section class="status-section" aria-live="polite" aria-atomic="true">
+          <p id="status" class="status status--placeholder" role="status">
+            Game UI will load here in later phases.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
