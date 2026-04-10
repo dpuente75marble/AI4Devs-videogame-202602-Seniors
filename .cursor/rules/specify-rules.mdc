@@ -1,0 +1,36 @@
+---
+description: Project Development Guidelines
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# AI4Devs-videogame-202602-Seniors Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2026-04-11
+
+## Active Technologies
+
+- JavaScript (ES2020+ features acceptable where supported; align with browsers in research.md) + None required (vanilla modules or scripts per technical design); no UI framework for MVP (001-chromix-sort-mvp)
+
+## Project Structure
+
+```text
+backend/
+frontend/
+tests/
+```
+
+## Commands
+
+npm test && npm run lint
+
+## Code Style
+
+JavaScript (ES2020+ features acceptable where supported; align with browsers in research.md): Follow standard conventions
+
+## Recent Changes
+
+- 001-chromix-sort-mvp: Added JavaScript (ES2020+ features acceptable where supported; align with browsers in research.md) + None required (vanilla modules or scripts per technical design); no UI framework for MVP
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
