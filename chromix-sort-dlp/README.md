@@ -1,17 +1,58 @@
+<p align="center">
+  <img src="./assets/cover.png" alt="Chromix Sort" width="800"/>
+</p>
+
 # Chromix Sort (MVP)
 
-## Project description
+A modern color-sorting puzzle built with vanilla JavaScript and a polished glassmorphism UI.
+
+## 🎮 Project description
 
 **Chromix Sort** is a **single-player puzzle game** for the web. You move colored pieces between **tubes** (columns) so that each tube ends up **either empty or holding a single color**—a classic “sort the colors” tube puzzle.
 
 This repository contains an **MVP**: one **fixed** board layout, no levels catalog, no accounts, and **no saved progress** between page loads. It is intended as a self-contained browser demo aligned with the project’s product, functional, and technical documentation.
 
-## Tech stack
+## 🛠 Tech stack
 
 - **HTML**, **CSS**, and **JavaScript** (ES modules)
 - **No backend**, **no database**, **no authentication**
 
-## How to run
+## 📁 Project structure
+
+chromix-sort-dlp/
+├── css/
+├── js/
+│   ├── main.js
+│   ├── view.js
+│   ├── input.js
+│   ├── state.js
+│   └── rules.js
+├── assets/
+├── docs/
+└── README.md
+
+## ✨ Features
+
+- Interactive tube selection system
+- Real-time move validation with clear feedback
+- Win state detection and interaction lock
+- Reset functionality with state restoration
+- Polished UI with glassmorphism and pastel design
+- Fully implemented with vanilla JavaScript (no frameworks)
+
+## 🎨 UI & UX Design
+
+The interface uses a soft pastel aesthetic with glassmorphism-inspired components:
+
+- Layered gradient background for depth and atmosphere
+- Frosted glass cards for the main game area
+- Glass-like tubes with inner highlights and subtle reflections
+- Rounded, gradient-based pieces with soft shadows
+- Visual feedback for selection, invalid moves, and success states
+
+All visuals are implemented using pure CSS (no images or external UI frameworks).
+
+## 🚀 How to run
 
 The app uses **ES modules** (`import` / `export`). Browsers often block those when the page is opened as a **`file://`** URL, so you should serve the folder over **HTTP** locally.
 
@@ -24,7 +65,7 @@ python3 -m http.server 8080
 
 Then open **http://localhost:8080/** in your browser (adjust host/port if you use another server).
 
-## How to play
+## 🧠 How to play
 
 1. **Select a source tube** (first click). Only the **top** piece of that tube can move.
 2. **Select a destination tube** (second click). The game tries to move the top piece from the source to the destination. (Click the **same** tube again to **cancel** the pending source.)
@@ -36,11 +77,11 @@ Then open **http://localhost:8080/** in your browser (adjust host/port if you us
 5. **Goal:** every tube is **empty** or contains pieces of **one color only** (no mixed colors in a tube), in line with the MVP layout.
 6. **Reset** restores the **initial** board and session metrics (e.g. move count). After a **win**, further moves are not accepted until you **reset** and start again.
 
-## Documentation
+## 📚 Documentation
 
 - **Product, rules, and architecture (this deliverable):** `docs/` in this folder  
 - **Spec Kit feature pack (spec, plan, tasks, quickstart):** `../specs/001-chromix-sort-mvp/` (relative to this folder)
 
-## Verification
+## ✅ Verification
 
 Manual checks are listed in `../specs/001-chromix-sort-mvp/quickstart.md`.
