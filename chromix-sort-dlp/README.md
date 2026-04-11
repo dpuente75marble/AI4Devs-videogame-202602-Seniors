@@ -19,6 +19,9 @@ This repository contains an **MVP**: one **fixed** board layout, no levels catal
 
 ## 📁 Project structure
 
+## 📁 Project structure
+
+```
 chromix-sort-dlp/
 ├── css/
 ├── js/
@@ -30,6 +33,8 @@ chromix-sort-dlp/
 ├── assets/
 ├── docs/
 └── README.md
+```
+
 
 ## ✨ Features
 
