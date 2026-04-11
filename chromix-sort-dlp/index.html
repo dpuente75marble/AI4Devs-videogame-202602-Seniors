@@ -4,30 +4,45 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chromix Sort</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
     <div class="app">
       <header class="app__header">
-        <h1 class="app__title">Chromix Sort</h1>
-        <p class="app__tagline">Sort colors into tubes — MVP shell</p>
+        <div class="app__header-card">
+          <h1 class="app__title">Chromix Sort</h1>
+        </div>
       </header>
 
       <main class="app__main" id="game-root" aria-labelledby="game-heading">
         <h2 id="game-heading" class="visually-hidden">Game</h2>
 
-        <section
-          class="board-section"
-          aria-label="Puzzle board"
-        >
-          <div id="board" class="board board--placeholder">
-            <div class="board__tubes" id="tubes" aria-hidden="true">
-              <div class="tube tube--placeholder"></div>
-              <div class="tube tube--placeholder"></div>
-              <div class="tube tube--placeholder"></div>
+        <div class="play-card">
+          <section class="board-section" aria-label="Puzzle board">
+            <div id="board" class="board">
+              <div class="board__stage">
+                <div class="board__tubes" id="tubes" aria-hidden="true">
+                  <div class="tube tube--placeholder" aria-hidden="true"></div>
+                  <div class="tube tube--placeholder" aria-hidden="true"></div>
+                  <div class="tube tube--placeholder" aria-hidden="true"></div>
+                </div>
+                <div class="board__shelf" aria-hidden="true"></div>
+              </div>
             </div>
+          </section>
+
+          <div class="status-section" aria-live="polite" aria-atomic="true">
+            <p id="status" class="status status--placeholder" role="status">
+              Loading…
+            </p>
           </div>
-        </section>
+        </div>
 
         <section class="controls-section" aria-label="Game controls">
           <button
@@ -37,14 +52,22 @@
             disabled
             aria-describedby="status"
           >
-            Reset
+            <svg
+              class="btn__icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path
+                fill="currentColor"
+                d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"
+              />
+            </svg>
+            <span class="btn__label">Restart Level</span>
           </button>
-        </section>
-
-        <section class="status-section" aria-live="polite" aria-atomic="true">
-          <p id="status" class="status status--placeholder" role="status">
-            Game UI will load here in later phases.
-          </p>
         </section>
       </main>
     </div>

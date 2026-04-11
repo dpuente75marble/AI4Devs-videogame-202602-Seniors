@@ -2,10 +2,17 @@
  * Renders GameState to the DOM. No rule logic — display only.
  */
 
-const PIECE_FILL = {
-  red: "#e05555",
-  blue: "#4db8e8",
-};
+/** CSS maps colors via .tube__piece--{id}; extend styles.css when adding colors. */
+const KNOWN_PIECE_COLORS = new Set([
+  "red",
+  "blue",
+  "mint",
+  "peach",
+  "lavender",
+  "sky",
+  "yellow",
+  "pink",
+]);
 
 /** @type {Record<string, string>} */
 const VIOLATION_MESSAGES = {
@@ -39,7 +46,6 @@ export function render(state, elements, options = {}) {
   const { boardEl, tubesRoot, statusEl, resetBtn } = elements;
   const errorHint = options.errorHint ?? null;
 
-  boardEl.classList.remove("board--placeholder");
   tubesRoot.removeAttribute("aria-hidden");
 
   tubesRoot.replaceChildren();
@@ -71,16 +77,13 @@ export function render(state, elements, options = {}) {
     const stack = document.createElement("div");
     stack.className = "tube__stack";
     stack.setAttribute("aria-hidden", "true");
-    stack.style.cssText =
-      "display:flex;flex-direction:column-reverse;flex:1;width:100%;min-height:0;padding:4px;gap:3px;";
 
     for (const piece of tube.pieces) {
       const el = document.createElement("div");
-      el.className = "tube__piece";
-      el.style.cssText =
-        "flex:1 1 0;min-height:0;border-radius:8px;transition:transform 0.12s ease;" +
-        `background:${PIECE_FILL[piece.color] ?? "#888"};` +
-        "box-shadow:inset 0 -2px 0 rgba(0,0,0,0.2);";
+      const safe = /^[a-z0-9_-]+$/i.test(piece.color) ? piece.color.toLowerCase() : "";
+      const mod = safe && KNOWN_PIECE_COLORS.has(safe) ? safe : "unknown";
+      el.className = `tube__piece tube__piece--${mod}`;
+      el.dataset.color = piece.color;
       stack.appendChild(el);
     }
 
@@ -88,13 +91,9 @@ export function render(state, elements, options = {}) {
     for (let i = 0; i < emptySlots; i++) {
       const el = document.createElement("div");
       el.className = "tube__empty";
-      el.style.cssText =
-        "flex:1 1 0;min-height:0;border-radius:8px;border:1px dashed rgba(255,255,255,0.15);";
       stack.appendChild(el);
     }
 
-    btn.style.display = "flex";
-    btn.style.flexDirection = "column";
     btn.appendChild(stack);
     tubesRoot.appendChild(btn);
   });
@@ -123,6 +122,18 @@ export function render(state, elements, options = {}) {
   statusEl.textContent = announcement;
   statusEl.setAttribute("role", errorHint && state.phase === "playing" ? "alert" : "status");
 
+  const gameRoot = document.getElementById("game-root");
+  if (gameRoot) {
+    let ui = "idle";
+    if (state.phase === "won") ui = "won";
+    else if (errorHint) ui = "error";
+    else if (state.selection.type === "source") ui = "source";
+    gameRoot.dataset.chromixUi = ui;
+  }
+
   resetBtn.disabled = false;
-  resetBtn.setAttribute("aria-label", "Reset puzzle to the starting layout");
+  resetBtn.setAttribute(
+    "aria-label",
+    "Restart level — restore the puzzle to its starting layout"
+  );
 }

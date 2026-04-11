@@ -61,9 +61,6 @@ function bootstrap() {
   const els = getElements();
   if (!els) return;
 
-  const root = document.getElementById("game-root");
-  if (root) root.dataset.chromixPhase = "5";
-
   transientErrorHint = null;
   render(gameState, els, { errorHint: null });
 
